@@ -1,3 +1,26 @@
+html{
+    background-image: url('https://thumbs.dreamstime.com/b/background-cards-green-felt-casino-table-copy-space-field-79637526.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height:100%;
+}
+
+
+
+h1{
+    color:white;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#start{
+    text-align: center;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+
 img{
     width:150px;
 }
