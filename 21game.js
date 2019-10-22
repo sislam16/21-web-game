@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', ()=>{
-    console.log('hi')
     let startBtn = document.querySelector('#startBtn')
     startBtn.addEventListener('click', (event) =>{
         event.preventDefault();
@@ -8,49 +7,71 @@ document.addEventListener('DOMContentLoaded', ()=>{
     })
 })
 
+//global variables
+cardDiv = document.querySelector('#card-display');
+compDiv = document.querySelector('#computer-card-display');
+
+// get information of the deck
 const getDeck = async () => {
 let cardsAPI = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1'
   let response =  await axios.get(cardsAPI)
-  let data = response.data
-  cardID = data.deck_id
-    getCards(cardID, 2);
+  cardID = response.data.deck_id
+    getCards(cardID, 2, cardDiv);
     removeStartBtn();
+    showButtons();
 }
 
+// removes the start button after its clicked
 const removeStartBtn = () =>{
     let startDiv = document.querySelector('#start')
     let startBtn = document.querySelector('#startBtn')
-
     startDiv.removeChild(startBtn)
-    // startDiv.appendChild(cardDiv)
-    // // startDiv.replaceChild(startBtn, cardDiv)
-    // cardDiv.innerText ='hi'
-
 }
-const getCards = async (cardID, cardAmount) => {
-    console.log(data)
-    // cardID = data.deck_id
-    let getActualCards = `https://deckofcardsapi.com/api/deck/${cardID}/draw/?count=${cardAmount}`
+
+//fetches deck information
+const getCards = async (deck_id, cardAmount, divName) => {
+    let getActualCards = `https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=${cardAmount}`
 
     let cardResponse = await axios.get(getActualCards)
-    console.log(cardResponse)
-   displayCards(cardResponse);
+    let data = cardResponse.data.cards 
+  //  console.log(data)
+    if(divName === cardDiv){
+        displayCards(data);
+    } else if(divName === compDiv){
+        displayCards(data);
+    }
 }
 
-const displayCards = (cardResponse) => {
-    let cardArr = cardResponse.data.cards
-    let cardDiv = document.querySelector('#card-display');
-    cardArr.forEach(element => {
+//displays card images on the DOM
+const displayCards = (data) => {
+    console.log(data)
+    data.forEach(element => {
         console.log(element)
+        cardDiv = document.querySelector('#card-display');
         let cardImg = document.createElement('img')
         cardImg.src = element.image
         cardDiv.appendChild(cardImg)
-        
     })
     
 
 }
 
+// displays the hit/stay buttons
 const showButtons = () => {
-
+    let footer = document.querySelector('#footer')
+    let hit = document.createElement('button')
+    hit.innerText = 'HIT'
+    hit.id = 'HIT'
+    hit.addEventListener('click', (event) =>{
+        getCards(cardID, 1, cardDiv)
+    })
+    let stay = document.createElement('button')
+    stay.id = 'STAY'
+    stay.innerText = 'STAY'
+    stay.addEventListener('click', (event)=>{
+        getCards(cardID, 3, compDiv)
+    })
+    footer.append(hit, stay)
 } 
+
+
