@@ -4,28 +4,25 @@ let startDiv;
 
 document.addEventListener('DOMContentLoaded', () => {
     let startBtn = document.querySelector('#startBtn')
-     userDiv = document.querySelector('#card-display');
+    userDiv = document.querySelector('#card-display');
     compDiv = document.querySelector('#computer-card-display');
     startDiv = document.querySelector('#start')
     startBtn.addEventListener('click', (event) =>{
-        event.preventDefault();
         getDeck();
-     
     })
 })
 
 //global variables
-
 let userHand = [];
 let compHand = [];
 userScore = 0;
-// compScore = 0; 
+compScore = 0; 
 
 // get information of the deck
 const getDeck = async () => {
-let cardsAPI = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1'
-  let response =  await axios.get(cardsAPI)
-  cardID = response.data.deck_id
+    let cardsAPI = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1'
+    let response =  await axios.get(cardsAPI)
+    cardID = response.data.deck_id
     getCards(cardID, 2, userDiv);
     removeStartBtn();
     showButtons();
@@ -48,7 +45,8 @@ const getCards = async (deck_id, cardAmount, divName) => {
     if(divName === userDiv){
         displayCards(cards);
         
-       userHand = userHand.concat(cards) // adding the cards arr to the empty userHand arr
+        console.log("userDiv", userDiv)
+        userHand = userHand.concat(cards) // adding the cards arr to the empty userHand arr
     //    console.log(userHand)
         calculateHandValue(userHand, userDiv)
     } else if(divName === compDiv){
@@ -104,12 +102,12 @@ const calculateHandValue = (arr, divName) => {
         } else if(cardValue === 'ACE'){
             cardValue = 1
         } 
-     total += Number(cardValue) 
+        total += Number(cardValue) 
     })
     displayTotal(total, divName)
     
     console.log('total', total)
-    check21();
+    check21(total);
 }
 
 //checking if the total for either side is over 21
@@ -140,24 +138,26 @@ const checkWinner = () =>{
         let computerWins = document.createElement('h1');
         computerWins.innerText = 'Computer wins!'
         startDiv.appendChild(computerWins)
-    } else {
-        let tie = document.createElement('h1');
-        tie.innerText = 'Theres a tie!'
-        startDiv.appendChild(tie)
-    }
+     } 
+    // else {
+    //     let tie = document.createElement('h1');
+    //     tie.innerText = 'Theres a tie!'
+    //     startDiv.appendChild(tie)
+    // }
 }
 
 //displays the total of cards
 const displayTotal = (total, div) =>{
-    let h2 = document.querySelector('h2')
+    let h2 = document.querySelector(`#${div.id}h2`)
     if(!h2){
         let scoreDisplay = document.createElement('h2');
-        scoreDisplay.id = 'h2'
+        scoreDisplay.id = div.id + 'h2'//'h2'
         scoreDisplay.innerText = total
         div.appendChild(scoreDisplay);
     }else{
         h2.innerText = total
-    }   
+    }  
+    checkWinner(); 
 }
 
 //function that removes the buttons 

@@ -6,8 +6,6 @@ html{
     height:100%;
 }
 
-
-
 h1{
     color:white;
     margin: 0 auto;
@@ -38,6 +36,9 @@ img{
     width:200px;
 }
 
+#card-display, #computer-card-display{
+    margin-top: 10%;
+}
 
 #card-display h2 {
   float: left;
@@ -48,9 +49,26 @@ img{
 } 
 
 
+#footer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#HIT{
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+#STAY{
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
 #HIT, #STAY{
-    position:relative;
-    width: 15%;
+    margin: 0 auto;
+    width: 20%;
     height:25px;
     border-radius: 15px;
+    margin-top: 40%;
+
 }
