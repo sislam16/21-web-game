@@ -17,11 +17,40 @@ h1{
 #start{
     text-align: center;
     margin: 0 auto;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
 }
 
+#startBtn {
+    /* display: flex; */
+    text-align: center;
+    margin: 60px auto;
+    width: 15%;
+    height:25px;
+    border-radius: 15px;
+    font-size: 10px;
+    color: white;
+    background-color: green;
+    border: white solid 1px;
+}
 
 img{
-    width:150px;
+    width:200px;
 }
 
+
+#card-display h2 {
+  float: left;
+}
+
+#computer-card-display h2{
+    float: right;
+} 
+
+
+#HIT, #STAY{
+    position:relative;
+    width: 15%;
+    height:25px;
+    border-radius: 15px;
+}
