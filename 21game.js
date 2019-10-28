@@ -43,14 +43,14 @@ const getCards = async (deck_id, cardAmount, divName) => {
     let cards = cardResponse.data.cards 
   //  console.log(cards)
     if(divName === userDiv){
-        displayCards(cards);
+        displayCards(cards, userDiv);
         
         console.log("userDiv", userDiv)
         userHand = userHand.concat(cards) // adding the cards arr to the empty userHand arr
     //    console.log(userHand)
         calculateHandValue(userHand, userDiv)
     } else if(divName === compDiv){
-        displayCards(cards);
+        displayCards(cards, compDiv);
         compHand = compHand.concat(cards)
         // console.log(compHand)
         console.log("compDiv", compDiv)
@@ -59,17 +59,27 @@ const getCards = async (deck_id, cardAmount, divName) => {
 }
 
 //displays card images on the DOM
-const displayCards = (cards) => {
+const displayCards = (cards, divname) => {
     console.log(cards)
     cards.forEach(element => {
-        userDiv = document.querySelector('#card-display');
-        // compDiv = document.querySelector('#computer-card,display')
-        let cardImg = document.createElement('img')
-        cardImg.src = element.image
-        userDiv.appendChild(cardImg)
-        // compDiv.appendChild(cardImg)
-        let cardValue = element.value
-        console.log(cardValue)
+        if (divname === userDiv) {
+            userDiv = document.querySelector('#card-display');
+            // compDiv = document.querySelector('#computer-card,display')
+            let cardImg = document.createElement('img')
+            cardImg.src = element.image
+            userDiv.appendChild(cardImg)
+            // compDiv.appendChild(cardImg)
+            let cardValue = element.value
+            console.log(cardValue)
+        } else if (divname === compDiv) {
+            compDiv = document.querySelector('#computer-card-display')
+            let cardImg = document.createElement('img')
+            cardImg.src = element.image
+             compDiv.appendChild(cardImg)
+            let cardValue = element.value
+            console.log(cardValue)
+        }
+
     })
     
 
@@ -107,18 +117,42 @@ const calculateHandValue = (arr, divName) => {
         total += Number(cardValue) 
     })
     displayTotal(total, divName)
-    
     console.log('total', total)
-    check21(total);
+    
+    if (divName === userDiv) {
+        userScore = total
+        checkUserScore(userScore)
+    } else if (divName === compDiv) {
+        compScore = total 
+         checkCompScore(compScore);
+    }
+}
 
+const checkUserScore = (total) => {
+    let headerDiv = document.querySelector("#header")
+    if (total === 21) {
+        let headerDiv = document.querySelector("#header")
+        let winMessage = document.createElement('h1');
+        winMessage.innerText = 'You won!!'
+        headerDiv.appendChild(winMessage)
+    } else if (total > 21) {
+        busted()
+    } 
 }
 
 //checking if the total for either side is over 21
-const check21 = (total) => {
-    if(total > 21){
-        busted(total);
-      } else if(total < 21){
-        checkWinner(total);
+const checkCompScore= (total) => {
+    let headerDiv = document.querySelector("#header")
+    if (total === 21){
+        let computerWins = document.createElement('h1');
+        computerWins.innerText = 'Computer wins!'
+        headerDiv.appendChild(computerWins)
+    } else if(total > 21){
+        let winMessage = document.createElement('h1');
+        winMessage.innerText = 'You won!!'
+        headerDiv.appendChild(winMessage)
+      } else if (total < 21){
+        checkWinner(userScore, compScore);
     } 
 }
 
@@ -132,15 +166,16 @@ const busted = () =>{
 }
 
 // will compare the total value of userDeck and compDeck
-const checkWinner = () =>{
+const checkWinner = (userScore, compScore) =>{
+    let headerDiv = document.querySelector("#header")
     if(userScore > compScore){
         let winMessage = document.createElement('h1');
         winMessage.innerText = 'You won!!'
-        startDiv.appendChild(winMessage)
-    }else if(compScore < userScore){
+        headerDiv.appendChild(winMessage)
+    }else if(compScore > userScore){
         let computerWins = document.createElement('h1');
         computerWins.innerText = 'Computer wins!'
-        startDiv.appendChild(computerWins)
+        headerDiv.appendChild(computerWins)
      } 
 }
 
