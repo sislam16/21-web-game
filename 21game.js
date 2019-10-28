@@ -5,8 +5,8 @@ let startDiv;
 document.addEventListener('DOMContentLoaded', () => {
     let startBtn = document.querySelector('#startBtn')
     userDiv = document.querySelector('#card-display');
-    compDiv = document.querySelector('#computer-card-display');
-    startDiv = document.querySelector('#start')
+    compDiv = document.querySelector('#computer-card-display')
+     startDiv = document.querySelector('#start')
     startBtn.addEventListener('click', (event) =>{
         getDeck();
     })
@@ -63,9 +63,11 @@ const displayCards = (cards) => {
     console.log(cards)
     cards.forEach(element => {
         userDiv = document.querySelector('#card-display');
+        // compDiv = document.querySelector('#computer-card,display')
         let cardImg = document.createElement('img')
         cardImg.src = element.image
         userDiv.appendChild(cardImg)
+        // compDiv.appendChild(cardImg)
         let cardValue = element.value
         console.log(cardValue)
     })
@@ -108,14 +110,15 @@ const calculateHandValue = (arr, divName) => {
     
     console.log('total', total)
     check21(total);
+
 }
 
 //checking if the total for either side is over 21
 const check21 = (total) => {
     if(total > 21){
-        busted();
+        busted(total);
       } else if(total < 21){
-        checkWinner();
+        checkWinner(total);
     } 
 }
 
@@ -139,11 +142,6 @@ const checkWinner = () =>{
         computerWins.innerText = 'Computer wins!'
         startDiv.appendChild(computerWins)
      } 
-    // else {
-    //     let tie = document.createElement('h1');
-    //     tie.innerText = 'Theres a tie!'
-    //     startDiv.appendChild(tie)
-    // }
 }
 
 //displays the total of cards
@@ -157,7 +155,7 @@ const displayTotal = (total, div) =>{
     }else{
         h2.innerText = total
     }  
-    checkWinner(); 
+    // checkWinner(); 
 }
 
 //function that removes the buttons 
